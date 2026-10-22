@@ -5,11 +5,31 @@ description = ""
 authors = [
     {name = "camilo velez",email = "camilo@akunah.com"}
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
+    "numpy (>=1.24)",
 ]
+
+[project.optional-dependencies]
+# On the Raspberry Pi use apt's python3-opencv instead (pip wheels break the xcb plugin there).
+opencv = ["opencv-python-headless (>=4.6)"]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.1.1,<10.0.0)"
+]
+
+[tool.poetry]
+packages = [{ include = "open_umpire", from = "src" }]
+
+[project.scripts]
+umpire = "open_umpire.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
